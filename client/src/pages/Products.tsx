@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
@@ -8,260 +9,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Search } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
 import type { Product } from "@shared/schema";
-import devicesImage from "@assets/generated_images/Medical_devices_category_image_3e32dfe6.png";
-import consumablesImage from "@assets/generated_images/Medical_consumables_category_image_36ec9d1e.png";
-import ppeImage from "@assets/generated_images/PPE_equipment_category_image_46d9ab7c.png";
-import equipmentImage from "@assets/generated_images/Medical_equipment_category_image_9844a6fa.png";
 
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  const mockProducts: Product[] = [
-    {
-      id: '1',
-      name: 'Digital Patient Monitor - Multi-Parameter',
-      sku: 'DPM-2024-001',
-      price: '45,899.00',
-      description: 'Advanced digital patient monitoring system with multi-parameter display, ECG, SpO2, NIBP, and temperature monitoring.',
-      specifications: ['Display: 15-inch HD touchscreen', 'Parameters: ECG, SpO2, NIBP, Temp', 'Battery: 4 hours', 'Wireless connectivity'],
-      certifications: ['CE', 'FDA', 'ISO 13485', 'SABS'],
-      inStock: 15,
-      imageUrl: devicesImage,
-      category: 'devices'
-    },
-    {
-      id: '2',
-      name: 'Nitrile Surgical Gloves (Box of 100)',
-      sku: 'SG-2024-002',
-      price: '459.00',
-      description: 'Latex-free nitrile surgical gloves, powder-free, sterile, ambidextrous.',
-      specifications: ['Material: Nitrile', 'Size: Medium', 'Quantity: 100 pairs', 'Powder-free'],
-      certifications: ['CE', 'FDA', 'SABS'],
-      inStock: 450,
-      imageUrl: consumablesImage,
-      category: 'consumables'
-    },
-    {
-      id: '3',
-      name: 'N95 Respirator Masks FFP2 Certified',
-      sku: 'N95-2024-003',
-      price: '1,649.00',
-      description: 'NIOSH-approved N95 respirator masks with FFP2 certification, box of 20.',
-      specifications: ['Filtration: 95%+', 'Quantity: 20 masks', 'Adjustable nose clip', 'Comfortable elastic straps'],
-      certifications: ['NIOSH', 'CE', 'FDA', 'FFP2'],
-      inStock: 280,
-      imageUrl: ppeImage,
-      category: 'ppe'
-    },
-    {
-      id: '4',
-      name: 'Electric Hospital Bed - 5 Function',
-      sku: 'HB-2024-004',
-      price: '64,299.00',
-      description: 'Fully electric hospital bed with 5 adjustable positions, side rails, and emergency CPR function.',
-      specifications: ['Weight capacity: 200kg', 'Adjustable height: 45-75cm', 'Lockable wheels', 'CPR emergency release'],
-      certifications: ['CE', 'FDA', 'ISO 13485', 'SABS'],
-      inStock: 12,
-      imageUrl: equipmentImage,
-      category: 'equipment'
-    },
-    {
-      id: '5',
-      name: 'Portable Ultrasound Scanner - Color Doppler',
-      sku: 'US-2024-005',
-      price: '239,000.00',
-      description: 'Portable color Doppler ultrasound machine with high-resolution imaging, ideal for cardiac and abdominal scans.',
-      specifications: ['Display: 21-inch LED', 'Probes: 3 included', 'Battery: 2 hours', 'Color Doppler imaging'],
-      certifications: ['CE', 'FDA', 'ISO 13485', 'SABS'],
-      inStock: 5,
-      imageUrl: devicesImage,
-      category: 'devices'
-    },
-    {
-      id: '6',
-      name: 'Disposable Syringes with Needles (100 pack)',
-      sku: 'DS-2024-006',
-      price: '365.00',
-      description: 'Sterile disposable syringes with safety needles, 10ml capacity, single-use.',
-      specifications: ['Volume: 10ml', 'Needle: 21G x 1.5"', 'Quantity: 100', 'Safety lock feature'],
-      certifications: ['CE', 'FDA', 'ISO', 'SABS'],
-      inStock: 620,
-      imageUrl: consumablesImage,
-      category: 'consumables'
-    },
-    {
-      id: '7',
-      name: 'Surgical Face Masks - 3 Ply (Box of 50)',
-      sku: 'SFM-2024-007',
-      price: '199.00',
-      description: 'Disposable 3-ply surgical face masks with ear loops, high filtration efficiency.',
-      specifications: ['Layers: 3-ply', 'Quantity: 50 masks', 'Filtration: 98%', 'Hypoallergenic'],
-      certifications: ['CE', 'SABS', 'Type IIR'],
-      inStock: 850,
-      imageUrl: ppeImage,
-      category: 'ppe'
-    },
-    {
-      id: '8',
-      name: 'Blood Pressure Monitor - Digital',
-      sku: 'BPM-2024-008',
-      price: '1,895.00',
-      description: 'Automatic digital blood pressure monitor with large LCD display and memory function.',
-      specifications: ['Measurement: Automatic', 'Display: LCD', 'Memory: 99 readings', 'Irregular heartbeat detection'],
-      certifications: ['CE', 'FDA', 'ISO 13485'],
-      inStock: 45,
-      imageUrl: devicesImage,
-      category: 'devices'
-    },
-    {
-      id: '9',
-      name: 'IV Cannula Set (100 pieces)',
-      sku: 'IVC-2024-009',
-      price: '1,250.00',
-      description: 'Sterile IV cannula set with safety wings, various sizes included.',
-      specifications: ['Sizes: 18G, 20G, 22G', 'Quantity: 100', 'Safety wing design', 'Color-coded'],
-      certifications: ['CE', 'FDA', 'ISO', 'SABS'],
-      inStock: 340,
-      imageUrl: consumablesImage,
-      category: 'consumables'
-    },
-    {
-      id: '10',
-      name: 'Surgical Gowns - Disposable (Pack of 10)',
-      sku: 'SGW-2024-010',
-      price: '849.00',
-      description: 'Disposable surgical gowns, fluid-resistant, sterile, size L.',
-      specifications: ['Material: SMS', 'Size: Large', 'Quantity: 10', 'Fluid-resistant', 'Sterile'],
-      certifications: ['CE', 'SABS', 'Level 3'],
-      inStock: 230,
-      imageUrl: ppeImage,
-      category: 'ppe'
-    },
-    {
-      id: '11',
-      name: 'Defibrillator - Automated External (AED)',
-      sku: 'DEF-2024-011',
-      price: '18,950.00',
-      description: 'Latest automated external defibrillator with voice prompts and CPR guidance.',
-      specifications: ['Type: Biphasic', 'Energy: 150-200J', 'Voice prompts', 'CPR coaching', '8-year battery'],
-      certifications: ['CE', 'FDA', 'ISO 13485', 'SABS'],
-      inStock: 8,
-      imageUrl: devicesImage,
-      category: 'devices'
-    },
-    {
-      id: '12',
-      name: 'Oxygen Cylinder - Medical Grade 10L',
-      sku: 'OXY-2024-012',
-      price: '2,450.00',
-      description: 'Medical grade oxygen cylinder with regulator, 10 liters capacity.',
-      specifications: ['Capacity: 10L', 'Purity: 99.5%', 'Includes regulator', 'Refillable'],
-      certifications: ['CE', 'FDA', 'SABS', 'Medical Grade'],
-      inStock: 65,
-      imageUrl: equipmentImage,
-      category: 'equipment'
-    },
-    {
-      id: '13',
-      name: 'Alcohol Swabs - Sterile (Box of 200)',
-      sku: 'AS-2024-013',
-      price: '145.00',
-      description: 'Sterile alcohol prep pads, 70% isopropyl alcohol, individually wrapped.',
-      specifications: ['Alcohol: 70% IPA', 'Quantity: 200 pads', 'Size: 6cm x 3cm', 'Individually wrapped'],
-      certifications: ['CE', 'SABS'],
-      inStock: 920,
-      imageUrl: consumablesImage,
-      category: 'consumables'
-    },
-    {
-      id: '14',
-      name: 'Pulse Oximeter - Fingertip',
-      sku: 'POX-2024-014',
-      price: '649.00',
-      description: 'Portable fingertip pulse oximeter with LED display, measures SpO2 and pulse rate.',
-      specifications: ['Display: LED', 'Measurement: SpO2, Pulse', 'Battery: AAA x 2', 'Auto power-off'],
-      certifications: ['CE', 'FDA', 'ISO'],
-      inStock: 155,
-      imageUrl: devicesImage,
-      category: 'devices'
-    },
-    {
-      id: '15',
-      name: 'Wheelchair - Standard Folding',
-      sku: 'WC-2024-015',
-      price: '3,899.00',
-      description: 'Standard folding wheelchair with padded armrests and footrests.',
-      specifications: ['Weight capacity: 120kg', 'Seat width: 46cm', 'Folding design', 'Padded armrests'],
-      certifications: ['CE', 'ISO', 'SABS'],
-      inStock: 22,
-      imageUrl: equipmentImage,
-      category: 'equipment'
-    },
-    {
-      id: '16',
-      name: 'Gauze Bandage Rolls (Pack of 12)',
-      sku: 'GB-2024-016',
-      price: '285.00',
-      description: 'Sterile gauze bandage rolls, 10cm x 4m, highly absorbent.',
-      specifications: ['Width: 10cm', 'Length: 4m', 'Quantity: 12 rolls', 'Sterile', 'Cotton blend'],
-      certifications: ['CE', 'SABS'],
-      inStock: 480,
-      imageUrl: consumablesImage,
-      category: 'consumables'
-    },
-    {
-      id: '17',
-      name: 'Safety Goggles - Anti-Fog',
-      sku: 'SG-2024-017',
-      price: '189.00',
-      description: 'Protective safety goggles with anti-fog coating and adjustable strap.',
-      specifications: ['Lens: Polycarbonate', 'Anti-fog coating', 'UV protection', 'Adjustable strap'],
-      certifications: ['CE', 'ANSI Z87.1', 'SABS'],
-      inStock: 310,
-      imageUrl: ppeImage,
-      category: 'ppe'
-    },
-    {
-      id: '18',
-      name: 'Thermometer - Infrared Non-Contact',
-      sku: 'TH-2024-018',
-      price: '549.00',
-      description: 'Latest infrared non-contact thermometer with instant reading and fever alert.',
-      specifications: ['Type: Infrared', 'Reading time: 1 second', 'Distance: 3-5cm', 'Memory: 32 readings'],
-      certifications: ['CE', 'FDA', 'ISO', 'SABS'],
-      inStock: 185,
-      imageUrl: devicesImage,
-      category: 'devices'
-    },
-    {
-      id: '19',
-      name: 'Examination Table - Adjustable',
-      sku: 'ET-2024-019',
-      price: '12,500.00',
-      description: 'Medical examination table with adjustable height and backrest, paper roll holder.',
-      specifications: ['Weight capacity: 180kg', 'Height: 60-90cm', 'Width: 60cm', 'Vinyl upholstery'],
-      certifications: ['CE', 'ISO', 'SABS'],
-      inStock: 14,
-      imageUrl: equipmentImage,
-      category: 'equipment'
-    },
-    {
-      id: '20',
-      name: 'Cotton Wool Balls - Sterile (500g)',
-      sku: 'CW-2024-020',
-      price: '165.00',
-      description: 'Sterile absorbent cotton wool balls for medical use.',
-      specifications: ['Weight: 500g', 'Sterile', '100% cotton', 'High absorbency'],
-      certifications: ['CE', 'SABS'],
-      inStock: 550,
-      imageUrl: consumablesImage,
-      category: 'consumables'
-    }
-  ];
+  const { data: products = [], isLoading } = useQuery<Product[]>({
+    queryKey: ['/api/products'],
+  });
 
   const categories = [
     { id: 'devices', label: 'Medical Devices' },
@@ -270,7 +28,7 @@ export default function Products() {
     { id: 'equipment', label: 'Medical Equipment' }
   ];
 
-  const filteredProducts = mockProducts.filter(product => {
+  const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          product.sku.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
@@ -341,34 +99,42 @@ export default function Products() {
             </aside>
 
             <div className="flex-1">
-              <div className="mb-6">
-                <p className="text-muted-foreground">
-                  Showing {filteredProducts.length} products
-                </p>
-              </div>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    sku={product.sku}
-                    price={product.price}
-                    imageUrl={product.imageUrl || undefined}
-                    inStock={product.inStock}
-                    onViewDetails={(id) => {
-                      const product = mockProducts.find(p => p.id === id);
-                      setSelectedProduct(product || null);
-                    }}
-                  />
-                ))}
-              </div>
-
-              {filteredProducts.length === 0 && (
-                <div className="text-center py-12">
-                  <p className="text-muted-foreground">No products found matching your criteria.</p>
+              {isLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="w-8 h-8 animate-spin text-primary" />
                 </div>
+              ) : (
+                <>
+                  <div className="mb-6">
+                    <p className="text-muted-foreground">
+                      Showing {filteredProducts.length} products
+                    </p>
+                  </div>
+                  
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredProducts.map((product) => (
+                      <ProductCard
+                        key={product.id}
+                        id={product.id}
+                        name={product.name}
+                        sku={product.sku}
+                        price={product.price}
+                        imageUrl={product.imageUrl || undefined}
+                        inStock={product.inStock}
+                        onViewDetails={(id) => {
+                          const product = products.find(p => p.id === id);
+                          setSelectedProduct(product || null);
+                        }}
+                      />
+                    ))}
+                  </div>
+
+                  {filteredProducts.length === 0 && (
+                    <div className="text-center py-12">
+                      <p className="text-muted-foreground">No products found matching your criteria.</p>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>

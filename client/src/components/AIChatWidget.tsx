@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { MessageCircle, X, Send } from "lucide-react";
+import { MessageCircle, X, Send, Loader2 } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
+import { apiRequest } from "@/lib/queryClient";
 
 interface Message {
   id: string;
@@ -17,35 +18,61 @@ export default function AIChatWidget() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! How can I help you today? I can assist with product inquiries, quotes, and general questions.',
+      text: 'Hello! How can I help you today? I can assist with product inquiries, quotes, and general questions about our medical equipment and supplies.',
       sender: 'bot',
       timestamp: new Date()
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendMessage = () => {
-    if (!inputMessage.trim()) return;
+  const handleSendMessage = async () => {
+    if (!inputMessage.trim() || isLoading) return;
 
-    const newMessage: Message = {
+    const userMessage: Message = {
       id: Date.now().toString(),
       text: inputMessage,
       sender: 'user',
       timestamp: new Date()
     };
 
-    setMessages([...messages, newMessage]);
+    setMessages(prev => [...prev, userMessage]);
     setInputMessage('');
+    setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      const conversationHistory = messages.map(msg => ({
+        role: msg.sender === 'user' ? 'user' : 'assistant',
+        content: msg.text
+      }));
+
+      const response = await apiRequest('POST', '/api/chat', {
+        message: inputMessage,
+        conversationHistory
+      });
+
+      const data = await response.json();
+
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'Thank you for your message. Our team will respond shortly. For immediate assistance, please call us at +1 (555) 123-4567.',
+        text: data.reply,
         sender: 'bot',
         timestamp: new Date()
       };
+      
       setMessages(prev => [...prev, botResponse]);
-    }, 1000);
+    } catch (error) {
+      console.error('Chat error:', error);
+      const errorResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        text: 'I apologize, I\'m having trouble connecting right now. Please contact our team directly at sales@medtech.com or +1 (555) 123-4567.',
+        sender: 'bot',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorResponse]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -66,7 +93,7 @@ export default function AIChatWidget() {
               <MessageCircle className="w-5 h-5" />
               <div>
                 <h3 className="font-semibold">Medtech Support</h3>
-                <p className="text-xs opacity-90">Typically replies instantly</p>
+                <p className="text-xs opacity-90">AI-powered assistance</p>
               </div>
             </div>
             <Button
@@ -98,6 +125,13 @@ export default function AIChatWidget() {
                 </div>
               </div>
             ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="bg-card border rounded-lg px-4 py-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="p-4 border-t">
@@ -107,10 +141,16 @@ export default function AIChatWidget() {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                disabled={isLoading}
                 data-testid="input-chat-message"
               />
-              <Button onClick={handleSendMessage} size="icon" data-testid="button-send-message">
-                <Send className="w-4 h-4" />
+              <Button 
+                onClick={handleSendMessage} 
+                size="icon" 
+                disabled={isLoading || !inputMessage.trim()}
+                data-testid="button-send-message"
+              >
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               </Button>
             </div>
           </div>

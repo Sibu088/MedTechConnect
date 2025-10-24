@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -14,16 +15,32 @@ export default function ContactForm() {
     company: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contact form submitted:', formData);
-    toast({
-      title: "Message Sent",
-      description: "We'll get back to you within 24 hours.",
-    });
-    setFormData({ name: '', email: '', company: '', message: '' });
+    setIsSubmitting(true);
+
+    try {
+      await apiRequest('POST', '/api/contact', formData);
+
+      toast({
+        title: "Message Sent",
+        description: "We'll get back to you within 24 hours.",
+      });
+      
+      setFormData({ name: '', email: '', company: '', message: '' });
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again or contact us directly.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -38,6 +55,7 @@ export default function ContactForm() {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
+              disabled={isSubmitting}
               data-testid="input-name"
             />
           </div>
@@ -49,6 +67,7 @@ export default function ContactForm() {
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
+              disabled={isSubmitting}
               data-testid="input-email"
             />
           </div>
@@ -58,6 +77,7 @@ export default function ContactForm() {
               id="company"
               value={formData.company}
               onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+              disabled={isSubmitting}
               data-testid="input-company"
             />
           </div>
@@ -69,11 +89,12 @@ export default function ContactForm() {
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               required
+              disabled={isSubmitting}
               data-testid="input-message"
             />
           </div>
-          <Button type="submit" className="w-full" data-testid="button-submit">
-            Send Message
+          <Button type="submit" className="w-full" disabled={isSubmitting} data-testid="button-submit">
+            {isSubmitting ? 'Sending...' : 'Send Message'}
           </Button>
         </form>
       </Card>
