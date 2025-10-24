@@ -8,7 +8,7 @@ export default function ProductCardExample() {
         id="1"
         name="Digital Patient Monitor"
         sku="DPM-2024-001"
-        price="2,499.00"
+        price="45,899.00"
         imageUrl={devicesImage}
         inStock={15}
         onViewDetails={(id) => console.log('View details:', id)}

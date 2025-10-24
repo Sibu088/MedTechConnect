@@ -52,7 +52,7 @@ export default function ProductDetailModal({ product, open, onOpenChange }: Prod
                 )}
               </div>
               <p className="text-4xl font-bold text-primary mb-6" data-testid="text-detail-price">
-                ${product.price}
+                R{product.price}
               </p>
             </div>
 

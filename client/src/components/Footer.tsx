@@ -55,15 +55,15 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <Phone className="w-4 h-4 text-primary mt-0.5" />
-                <span className="text-muted-foreground">+1 (555) 123-4567</span>
+                <span className="text-muted-foreground">+27 83 303 5688</span>
               </li>
               <li className="flex items-start gap-2">
                 <Mail className="w-4 h-4 text-primary mt-0.5" />
-                <span className="text-muted-foreground">sales@medtech.com</span>
+                <span className="text-muted-foreground">Tsholanang@medtech.co.za</span>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-primary mt-0.5" />
-                <span className="text-muted-foreground">123 Medical Plaza<br />New York, NY 10001</span>
+                <span className="text-muted-foreground">Gauteng, 2191<br />3 Halifax, Johannesburg</span>
               </li>
             </ul>
           </div>

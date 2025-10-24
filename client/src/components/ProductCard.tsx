@@ -34,7 +34,7 @@ export default function ProductCard({ id, name, sku, price, imageUrl, inStock, o
           )}
         </div>
         <p className="text-sm text-muted-foreground mb-2">SKU: {sku}</p>
-        <p className="text-2xl font-bold text-primary mb-4" data-testid={`text-price-${id}`}>${price}</p>
+        <p className="text-2xl font-bold text-primary mb-4" data-testid={`text-price-${id}`}>R{price}</p>
         <Button
           variant="outline"
           className="w-full mt-auto"

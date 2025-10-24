@@ -14,25 +14,25 @@ export default function Home() {
   const categories = [
     {
       title: "Medical Devices",
-      productCount: 45,
+      productCount: 78,
       imageUrl: devicesImage,
       category: "devices"
     },
     {
       title: "Consumables",
-      productCount: 120,
+      productCount: 156,
       imageUrl: consumablesImage,
       category: "consumables"
     },
     {
       title: "PPE Equipment",
-      productCount: 68,
+      productCount: 92,
       imageUrl: ppeImage,
       category: "ppe"
     },
     {
       title: "Medical Equipment",
-      productCount: 52,
+      productCount: 64,
       imageUrl: equipmentImage,
       category: "equipment"
     }

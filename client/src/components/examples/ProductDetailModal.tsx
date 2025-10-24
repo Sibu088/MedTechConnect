@@ -10,7 +10,7 @@ export default function ProductDetailModalExample() {
     id: '1',
     name: 'Digital Patient Monitor',
     sku: 'DPM-2024-001',
-    price: '2499.00',
+    price: '45,899.00',
     description: 'Advanced digital patient monitoring system with multi-parameter display, ECG, SpO2, NIBP, and temperature monitoring. Features a high-resolution touchscreen interface and wireless connectivity for seamless integration with hospital information systems.',
     specifications: [
       'Display: 15-inch HD touchscreen',

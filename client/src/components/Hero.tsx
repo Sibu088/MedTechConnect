@@ -46,7 +46,7 @@ export default function Hero() {
           </div>
           <div className="flex items-center gap-2">
             <Building2 className="w-5 h-5" />
-            <span className="text-sm font-medium">500+ Hospitals Served</span>
+            <span className="text-sm font-medium">50+ Hospitals Served</span>
           </div>
         </div>
       </div>
