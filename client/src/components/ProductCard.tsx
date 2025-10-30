@@ -13,11 +13,60 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ id, name, sku, price, imageUrl, inStock, onViewDetails }: ProductCardProps) {
+  // Set image URL based on product ID for testing
+  const testImageUrl = id === "1" 
+    ? "/Digital Patient Monitor - Multi-Parameter .jpg" 
+    : id === "2" 
+    ? "/surgicalgloves.jpg" 
+    : id === "3"
+    ? "/N95 Respirator Masks FFP2 Certified.jpg"
+    : id === "4"
+    ? "/Electric Hospital Bed - 5 Function.jpg"
+    : id === "5"
+    ? "/Portable Ultrasound Scanner - Color Doppler.jpg"
+    : id === "6"
+    ? "/Disposable Syringes with Needles (100 pack).jpg"
+    : id === "7"
+    ? "/N95 Respirator Masks FFP2 Certified.jpg"
+    : id === "8"
+    ? "/Blood Pressure Monitor - Digital.jpg"
+    : id === "9"
+    ? "/IV Cannula Set (100 pieces).jpg"
+    : id === "10"
+    ? "/Alcohol Swabs - Sterile (Box of 200).jpg"
+    : id === "11"
+    ? "/Defibrillator - Automated External.jpg"
+    : id === "12"
+    ? "/Oxygen Cylinder - Medical Grade 10L.jpg"
+    : id === "13"
+    ? "/Alcohol Swabs - Sterile (Box of 200) (2).jpg"
+    : id === "14"
+    ? "/Pulse Oximeter - Fingertip.jpg"
+    : id === "15"
+    ? "/Wheelchair - Standard Folding.jpg"
+    : id === "16"
+    ? "/Gauze Bandage Rolls (Pack of 12).jpg"
+    : id === "17"
+    ? "/safety-goggles-anti-scratch-and-anti-fog.jpg"
+    : id === "18"
+    ? "/Thermometer - Infrared Non-Contact.jpg"
+    : id === "19"
+    ? "/Examination Table - Adjustable.jpg"
+    : id === "20"
+    ? "/Anti-Bacteria-Alcohol-Absorbent-Sterile-Cotton-Ball.jpg"
+    : imageUrl;
+  console.log("Testing Image URL for product", id, ":", testImageUrl); // Debug log
+
   return (
     <Card className="overflow-hidden hover-elevate h-full flex flex-col" data-testid={`card-product-${id}`}>
       <div className="aspect-square bg-muted overflow-hidden">
-        {imageUrl ? (
-          <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
+        {testImageUrl ? (
+          <img
+            src={testImageUrl}
+            alt={name}
+            className="w-full h-full object-cover"
+            onError={(e) => console.error("Image failed to load:", testImageUrl, e)} // Error logging
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-muted-foreground">
             No Image
