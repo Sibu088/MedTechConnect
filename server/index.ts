@@ -5,17 +5,19 @@ import { seedProducts } from "./seed";
 
 const app = express();
 
-declare module 'http' {
+declare module "http" {
   interface IncomingMessage {
     rawBody: unknown;
   }
 }
 
-app.use(express.json({
-  verify: (req, _res, buf) => {
-    req.rawBody = buf;
-  }
-}));
+app.use(
+  express.json({
+    verify: (req, _res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
@@ -60,23 +62,21 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // Importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // Setup Vite in development, serve static in production
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
   }
 
-  // Serve the app on the port specified in the environment variable PORT
-  // Default to 5000 if not specified. Use localhost to avoid socket issues.
-  const port = parseInt(process.env.PORT || '5000', 10);
-  server.listen(port, 'localhost', () => {
-    log(`Serving on port ${port}`);
-  }).on('error', (err: NodeJS.ErrnoException) => {
-    if (err.code === 'EADDRINUSE') {
-      log(`Port ${port} is in use, please free it or use a different port.`);
+  // === RENDER FIX: Use process.env.PORT and bind to 0.0.0.0 ===
+  const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
+
+  server.listen(PORT, "0.0.0.0", () => {
+    log(`Serving on http://0.0.0.0:${PORT}`);
+  }).on("error", (err: NodeJS.ErrnoException) => {
+    if (err.code === "EADDRINUSE") {
+      log(`Port ${PORT} is in use`);
     } else {
       log(`Server error: ${err.message}`);
     }
