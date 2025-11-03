@@ -12,10 +12,14 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2" data-testid="link-home">
-            <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-              <div className="text-primary-foreground font-bold text-lg">M</div>
+            <div className="flex items-center justify-center">
+              <img
+                src="/change.jpg"
+                alt="MedTech Supplies Logo"
+                className="h-12 w-auto"   // increased size here
+              />
             </div>
-            <span className="text-xl font-bold text-foreground">Medtech</span>
+            <span className="text-xl font-bold text-foreground">Medtech SUPPLIES</span>
           </Link>
 
           {/* Desktop Nav */}
