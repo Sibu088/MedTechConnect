@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { SiWhatsapp, SiLinkedin, SiFacebook } from "react-icons/si";
 
 export default function Footer() {
@@ -60,10 +60,6 @@ export default function Footer() {
               <li className="flex items-start gap-2">
                 <Mail className="w-4 h-4 text-primary mt-0.5" />
                 <span className="text-muted-foreground">medtechsupplies@medtechsupplies.co.za</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-primary mt-0.5" />
-                <span className="text-muted-foreground">Mafikeng NORTH WEST 2745<br />20001 BRAY ROAD AIRPORT VIEW, MAFIKENG,NORTH WEST</span>
               </li>
             </ul>
           </div>
