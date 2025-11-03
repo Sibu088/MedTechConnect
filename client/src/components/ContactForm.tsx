@@ -107,21 +107,21 @@ export default function ContactForm() {
               <Phone className="w-5 h-5 text-primary mt-1" />
               <div>
                 <p className="font-medium">Phone</p>
-                <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                <p className="text-muted-foreground">+27 676185543</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <Mail className="w-5 h-5 text-primary mt-1" />
               <div>
                 <p className="font-medium">Email</p>
-                <p className="text-muted-foreground">sales@medtech.com</p>
+                <p className="text-muted-foreground">medtechsupplies@medtechsupplies.co.za</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <MapPin className="w-5 h-5 text-primary mt-1" />
               <div>
                 <p className="font-medium">Address</p>
-                <p className="text-muted-foreground">123 Medical Plaza, Healthcare District<br />New York, NY 10001</p>
+                <p className="text-muted-foreground">20001 BRAY ROAD AIRPORT VIEW, MAFIKENG, NORTH WEST</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
