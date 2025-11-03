@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { MessageCircle, X, Send, Loader2 } from "lucide-react";
-import { SiWhatsapp } from "react-icons/si";
 import { apiRequest } from "@/lib/queryClient";
 
 interface Message {
@@ -13,12 +12,12 @@ interface Message {
   timestamp: Date;
 }
 
-export default function AIChatWidget() {
+const AIChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! How can I help you today? I can assist with product inquiries, quotes, and general questions about our medical equipment and supplies.',
+      text: 'Hello! How can I help you today? I can assist with product inquiries, quotes, and general questions.',
       sender: 'bot',
       timestamp: new Date()
     }
@@ -65,7 +64,7 @@ export default function AIChatWidget() {
       console.error('Chat error:', error);
       const errorResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'I apologize, I\'m having trouble connecting right now. Please contact our team directly at sales@medtech.com or +1 (555) 123-4567.',
+        text: 'I apologize, I\'m having trouble connecting right now. Please contact our team at sales@medtech.com.',
         sender: 'bot',
         timestamp: new Date()
       };
@@ -77,24 +76,28 @@ export default function AIChatWidget() {
 
   return (
     <>
+      {/* Floating Chat Button */}
       <Button
         size="icon"
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg bg-[#25D366] hover:bg-[#20ba5a] z-50"
+        className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg bg-primary hover:bg-primary/90 z-50"
         onClick={() => setIsOpen(!isOpen)}
         data-testid="button-chat-toggle"
       >
-        {isOpen ? <X className="w-6 h-6" /> : <SiWhatsapp className="w-6 h-6" />}
+        {isOpen ? (
+          <X className="w-6 h-6" />
+        ) : (
+          <MessageCircle className="w-6 h-6" />
+        )}
       </Button>
 
+      {/* Chat Widget */}
       {isOpen && (
         <Card className="fixed bottom-24 right-6 w-96 h-[500px] shadow-xl z-50 flex flex-col" data-testid="widget-chat">
+          {/* Header */}
           <div className="bg-primary text-primary-foreground p-4 rounded-t-lg flex items-center justify-between">
             <div className="flex items-center gap-2">
               <MessageCircle className="w-5 h-5" />
-              <div>
-                <h3 className="font-semibold">Medtech Support</h3>
-                <p className="text-xs opacity-90">AI-powered assistance</p>
-              </div>
+              <h3 className="font-semibold">Medtech Support</h3>
             </div>
             <Button
               size="icon"
@@ -107,6 +110,7 @@ export default function AIChatWidget() {
             </Button>
           </div>
 
+          {/* Messages Area */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-muted/30">
             {messages.map((message) => (
               <div
@@ -114,14 +118,14 @@ export default function AIChatWidget() {
                 className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                  className={`max-w-[80%] rounded-lg px-4 py-2 text-sm ${
                     message.sender === 'user'
                       ? 'bg-primary text-primary-foreground'
                       : 'bg-card border'
                   }`}
                   data-testid={`message-${message.sender}-${message.id}`}
                 >
-                  <p className="text-sm">{message.text}</p>
+                  {message.text}
                 </div>
               </div>
             ))}
@@ -134,6 +138,7 @@ export default function AIChatWidget() {
             )}
           </div>
 
+          {/* Input Area */}
           <div className="p-4 border-t">
             <div className="flex gap-2">
               <Input
@@ -144,9 +149,9 @@ export default function AIChatWidget() {
                 disabled={isLoading}
                 data-testid="input-chat-message"
               />
-              <Button 
-                onClick={handleSendMessage} 
-                size="icon" 
+              <Button
+                onClick={handleSendMessage}
+                size="icon"
                 disabled={isLoading || !inputMessage.trim()}
                 data-testid="button-send-message"
               >
@@ -158,4 +163,9 @@ export default function AIChatWidget() {
       )}
     </>
   );
-}
+};
+
+// WhatsApp icon is GONE
+// No "AI-powered" text
+// Clean, branded, professional
+export default AIChatWidget;
