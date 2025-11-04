@@ -25,7 +25,7 @@ export default function Home() {
       category: "consumables"
     },
     {
-      title: "PPE Equipment",
+      title: "PPE ",
       productCount: 92,
       imageUrl: ppeImage,
       category: "ppe"
