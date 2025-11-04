@@ -13,7 +13,12 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2" data-testid="link-home">
             <div className="flex items-center justify-center">
-        
+           <img
+                  src="/change.jpg"
+                  alt="MedTech Supplies Logo"
+                  className="h-14 w-auto border-1 border-primary rounded-lg shadow-sm"
+                />
+
             </div>
             <span className="text-xl font-bold text-foreground">MEDTECH  SUPPLIES</span>
           </Link>
