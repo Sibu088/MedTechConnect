@@ -7,49 +7,138 @@ export default function Footer() {
     <footer className="bg-card border-t mt-auto">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-12">
         <div className="grid md:grid-cols-4 gap-8">
+          {/* ---------- Column 1 – Logo & Social ---------- */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-                <div className="text-primary-foreground font-bold text-lg">M</div>
-              </div>
-              <span className="text-xl font-bold">Medtech</span>
+            <div className="flex items-center gap-3 mb-4">
+              <Link href="/" className="flex items-center gap-3" data-testid="link-home">
+                {/* Logo Image */}
+                <img
+                  src="/change.jpg"
+                  alt="MedTech Supplies Logo"
+                  className="h-20 w-auto border-2 border-primary rounded-lg shadow-sm"
+                />
+
+                {/* Brand Text */}
+                <span className="text-xl font-bold text-foreground">MEDTECH SUPPLIES</span>
+              </Link>
             </div>
+
             <p className="text-sm text-muted-foreground mb-4">
               Your trusted partner in medical equipment and supplies.
             </p>
+
             <div className="flex gap-3">
-              <a href="#" className="hover-elevate active-elevate-2 p-2 rounded-md" data-testid="link-whatsapp">
+              <a
+                href="#"
+                className="hover-elevate active-elevate-2 p-2 rounded-md"
+                data-testid="link-whatsapp"
+              >
                 <SiWhatsapp className="w-5 h-5" />
               </a>
-              <a href="#" className="hover-elevate active-elevate-2 p-2 rounded-md" data-testid="link-linkedin">
+              <a
+                href="#"
+                className="hover-elevate active-elevate-2 p-2 rounded-md"
+                data-testid="link-linkedin"
+              >
                 <SiLinkedin className="w-5 h-5" />
               </a>
-              <a href="#" className="hover-elevate active-elevate-2 p-2 rounded-md" data-testid="link-facebook">
+              <a
+                href="#"
+                className="hover-elevate active-elevate-2 p-2 rounded-md"
+                data-testid="link-facebook"
+              >
                 <SiFacebook className="w-5 h-5" />
               </a>
             </div>
           </div>
 
+          {/* ---------- Column 2 – Products ---------- */}
           <div>
             <h3 className="font-semibold mb-4">Products</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/products?category=devices" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-devices">Medical Devices</Link></li>
-              <li><Link href="/products?category=consumables" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-consumables">Consumables</Link></li>
-              <li><Link href="/products?category=ppe" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-ppe">PPE Equipment</Link></li>
-              <li><Link href="/products?category=equipment" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-equipment">Medical Equipment</Link></li>
+              <li>
+                <Link
+                  href="/products?category=devices"
+                  className="text-muted-foreground hover:text-foreground"
+                  data-testid="link-footer-devices"
+                >
+                  Medical Devices
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products?category=consumables"
+                  className="text-muted-foreground hover:text-foreground"
+                  data-testid="link-footer-consumables"
+                >
+                  Consumables
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products?category=ppe"
+                  className="text-muted-foreground hover:text-foreground"
+                  data-testid="link-footer-ppe"
+                >
+                  PPE Equipment
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products?category=equipment"
+                  className="text-muted-foreground hover:text-foreground"
+                  data-testid="link-footer-equipment"
+                >
+                  Medical Equipment
+                </Link>
+              </li>
             </ul>
           </div>
 
+          {/* ---------- Column 3 – Company ---------- */}
           <div>
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/about" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-about">About Us</Link></li>
-              <li><Link href="/contact" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-contact">Contact</Link></li>
-              <li><Link href="/certifications" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-certs">Certifications</Link></li>
-              <li><Link href="/support" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-support">Support</Link></li>
+              <li>
+                <Link
+                  href="/about"
+                  className="text-muted-foreground hover:text-foreground"
+                  data-testid="link-footer-about"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-muted-foreground hover:text-foreground"
+                  data-testid="link-footer-contact"
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/certifications"
+                  className="text-muted-foreground hover:text-foreground"
+                  data-testid="link-footer-certs"
+                >
+                  Certifications
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/support"
+                  className="text-muted-foreground hover:text-foreground"
+                  data-testid="link-footer-support"
+                >
+                  Support
+                </Link>
+              </li>
             </ul>
           </div>
 
+          {/* ---------- Column 4 – Contact ---------- */}
           <div>
             <h3 className="font-semibold mb-4">Contact</h3>
             <ul className="space-y-3 text-sm">
@@ -59,14 +148,17 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-2">
                 <Mail className="w-4 h-4 text-primary mt-0.5" />
-                <span className="text-muted-foreground">medtechsupplies@medtechsupplies.co.za</span>
+                <span className="text-muted-foreground">
+                  medtechsupplies@medtechsupplies.co.za
+                </span>
               </li>
             </ul>
           </div>
         </div>
 
+        {/* ---------- Bottom copyright ---------- */}
         <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 Medtech. All rights reserved.</p>
+          <p>&copy; 2025 MEDTECH SUPPLIES. All rights reserved.</p>
         </div>
       </div>
     </footer>
