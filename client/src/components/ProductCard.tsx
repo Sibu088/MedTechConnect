@@ -6,7 +6,7 @@ interface ProductCardProps {
   id: string;
   name: string;
   sku: string;
-  price: string;
+  price: string; // kept in props (in case needed elsewhere), but not displayed
   imageUrl?: string;
   inStock: number;
   onViewDetails: (id: string) => void;
@@ -16,12 +16,12 @@ export default function ProductCard({
   id,
   name,
   sku,
-  price,
+  price, // received but not used in UI
   imageUrl,
   inStock,
   onViewDetails,
 }: ProductCardProps) {
-      // Set image URL based on product ID
+  // Set image URL based on product ID
   const testImageUrl =
     id === "1"
       ? "/Digital Patient Monitor - Multi-Parameter .jpg"
@@ -63,12 +63,11 @@ export default function ProductCard({
       ? "/Examination Table - Adjustable.jpg"
       : id === "20"
       ? "/Anti-Bacteria-Alcohol-Absorbent-Sterile-Cotton-Ball.jpg"
-      // NEW: Full template block for Product 21
       : id === "21"
-      ? "/Packs-and-Trays.jpg"   // Dedicated image
-      : imageUrl; // fallback
+      ? "/Packs-and-Trays.jpg"
+      : imageUrl;
 
-    // Override names for specific products
+  // Override names for specific products
   const displayName =
     id === "1"
       ? "Aed - Automated External Defibrillator"
@@ -78,11 +77,9 @@ export default function ProductCard({
       ? "Scoops and Spatulas"
       : id === "10"
       ? "Alcohol Swabs - Sterile (Box of 200)"
-      // NEW: Full template block for Product 21
       : id === "21"
-      ? "Packs and Trays"        // Dedicated name
-      : name; // fallback
-  console.log("Testing Image URL for product", id, ":", testImageUrl);
+      ? "Packs and Trays"
+      : name;
 
   return (
     <Card
@@ -133,13 +130,9 @@ export default function ProductCard({
           )}
         </div>
 
-        <p className="text-sm text-muted-foreground mb-2">SKU: {sku}</p>
-        <p
-          className="text-2xl font-bold text-primary mb-4"
-          data-testid={`text-price-${id}`}
-        >
-          {price}
-        </p>
+        <p className="text-sm text-muted-foreground mb-4">SKU: {sku}</p>
+
+        {/* PRICE REMOVED — NO LONGER DISPLAYED */}
 
         <Button
           variant="outline"
