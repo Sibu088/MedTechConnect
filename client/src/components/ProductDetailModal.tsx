@@ -62,6 +62,8 @@ export default function ProductDetailModal({
       ? "/Examination Table - Adjustable.jpg"
       : product.id === "20"
       ? "/Anti-Bacteria-Alcohol-Absorbent-Sterile-Cotton-Ball.jpg"
+      : product.id === "21"
+      ? "/Packs-Trays.jpg"
       : product.imageUrl;
 
   return (
