@@ -19,7 +19,7 @@ export default function Navbar() {
   className="h-20 w-auto border-2 border-primary rounded-lg shadow-sm"
 />
             </div>
-            <span className="text-xl font-bold text-foreground">Medtech SUPPLIES</span>
+            <span className="text-xl font-bold text-foreground">MEDTECH  SUPPLIES</span>
           </Link>
 
           {/* Desktop Nav */}
